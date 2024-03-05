@@ -82,7 +82,7 @@ fun meditationItem(
                         .background(bacc)
                         .clickable {
 
-                            navController.navigate("DetailsScreen")
+                            navController.navigate("DetailsScreen?image=${it.image}&image2=${it.image2}")
 
                         }
                 )
