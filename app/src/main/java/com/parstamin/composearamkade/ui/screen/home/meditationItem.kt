@@ -1,6 +1,7 @@
-package com.parstamin.composearamkade.ui.screen
+package com.parstamin.composearamkade.ui.screen.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,8 +16,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.parstamin.composearamkade.data.model.ResponseMediationItem
@@ -38,10 +40,11 @@ import com.parstamin.composearamkade.ui.viewmodel.MeditationViewModel
 import com.parstamin.composearamkade.utils.MyResponse
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun meditationItem(
-    meditationViewModel: MeditationViewModel = koinViewModel()
+    meditationViewModel: MeditationViewModel = koinViewModel(),
+    navController: NavController
 ) {
 
     var item by remember { mutableStateOf(emptyList<ResponseMediationItem>()) }
@@ -77,6 +80,11 @@ fun meditationItem(
                         .height(200.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .background(bacc)
+                        .clickable {
+
+                            navController.navigate("DetailsScreen")
+
+                        }
                 )
                 {
                     Column {
@@ -99,6 +107,7 @@ fun meditationItem(
                             colors = CardDefaults.cardColors(
                                 containerColor = bac
                             )
+
 
                         ) {
                             Spacer(modifier = Modifier.height(10.dp))
