@@ -1,3 +1,4 @@
+/*
 package com.parstamin.composearamkade.di
 
 import com.google.gson.Gson
@@ -68,3 +69,4 @@ object NetworkModule {
     @Named(NAMED_PING)
     fun providePingInterval() = PING_INTERVAL
 }
+*/

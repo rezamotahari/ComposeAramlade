@@ -6,15 +6,15 @@ import com.parstamin.composearamkade.data.model.ResponseMediationItem
 import com.parstamin.composearamkade.data.model.ResponseMeditationCatItem
 import com.parstamin.composearamkade.data.repository.MeditationRepository
 import com.parstamin.composearamkade.utils.MyResponse
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-@HiltViewModel
-class MeditationViewModel @Inject constructor(
+
+
+
+class MeditationViewModel(
     private val meditationRepository: MeditationRepository
 ) : ViewModel() {
 
@@ -37,33 +37,26 @@ class MeditationViewModel @Inject constructor(
                 .catch { e ->
                     _getMeditationCatData.value = MyResponse.error(e.message ?: "Unknown error")
                 }
-                .collect { response ->
-                    if (response.isSuccessful) {
-                        _getMeditationCatData.value = MyResponse.success(response.body())
-                    } else {
-                        _getMeditationCatData.value =
-                            MyResponse.error("Request failed with code: ${response.code()}")
-                    }
+                .collect {
+
+                    _getMeditationCatData.value = MyResponse.success(it)
+
                 }
         }
     }
 
 
-
-    fun  getMeditationItem(catId: Int) {
+    fun getMeditationItem(catId: Int) {
         viewModelScope.launch {
             meditationRepository.getMeditationItem(catId)
                 .onStart { _getMeditationData.value = MyResponse.loading() }
                 .catch { e ->
                     _getMeditationData.value = MyResponse.error(e.message ?: "Unknown error")
                 }
-                .collect { response ->
-                    if (response.isSuccessful) {
-                        _getMeditationData.value = MyResponse.success(response.body())
-                    } else {
-                        _getMeditationData.value =
-                            MyResponse.error("Request failed with code: ${response.code()}")
-                    }
+                .collect {
+
+                    _getMeditationData.value = MyResponse.success(it)
+
                 }
         }
     }

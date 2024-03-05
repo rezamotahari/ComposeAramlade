@@ -26,34 +26,32 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.parstamin.composearamkade.data.model.ResponseMeditationCatItem
+import com.parstamin.composearamkade.ui.theme.bacc
 import com.parstamin.composearamkade.ui.viewmodel.MeditationViewModel
 import com.parstamin.composearamkade.utils.MyResponse
+import org.koin.androidx.compose.koinViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MeditationCat(
-    meditationViewModel: MeditationViewModel = hiltViewModel()
+    meditationViewModel: MeditationViewModel = koinViewModel()
 ) {
     var cat by remember { mutableStateOf(emptyList<ResponseMeditationCatItem>()) }
-    var catselect by remember { mutableIntStateOf(1) }
+    var catId by remember { mutableIntStateOf(1) }
 
 
-    meditationViewModel.getMeditationItem(catselect)
+    meditationViewModel.getMeditationItem(catId)
     LaunchedEffect(key1 = true) {
         meditationViewModel.getMeditationCat()
         meditationViewModel.getMeditationCat.collect { response ->
             when (response.status) {
                 MyResponse.Status.LOADING -> {
                 }
-
                 MyResponse.Status.SUCCESS -> {
                     cat = response.data!!
-
                 }
-
                 MyResponse.Status.ERROR -> {
 
                 }
@@ -68,7 +66,7 @@ fun MeditationCat(
         LazyRow() {
 
             items(cat) {
-                val isSelected = catselect == it.id!!
+                val isSelected = catId == it.id!!
                 Box(
                     modifier = Modifier
                         .width(100.dp)
@@ -82,10 +80,10 @@ fun MeditationCat(
                             .fillMaxSize(),
                         shape = RoundedCornerShape(50.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor =  Color.Gray
+                            containerColor =  bacc
                         ),
                         onClick = {
-                            catselect = it.id
+                            catId = it.id
 
                         }
                     ) {

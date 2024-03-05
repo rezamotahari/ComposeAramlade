@@ -3,7 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
 
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
+   /* id("com.google.dagger.hilt.android")*/
+    id("kotlinx-serialization")
 }
 
 android {
@@ -62,6 +63,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("com.google.firebase:firebase-crashlytics-buildtools:2.9.9")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -73,13 +75,13 @@ dependencies {
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
 
-    // Retrofit
+/*    // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //Client
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.11")
     //OkHttp Interceptor
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11")*/
     //Gson
     implementation("com.google.code.gson:gson:2.10.1")
 
@@ -87,10 +89,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0") // for ViewModelScope
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0") // for LifecycleScope
 
-    // Hilt
+   /* // Hilt
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("com.google.dagger:hilt-android:2.49")
-    kapt("com.google.dagger:hilt-android-compiler:2.49")
+    kapt("com.google.dagger:hilt-android-compiler:2.49")*/
 
     // Glide
     implementation("com.github.bumptech.glide:compose:1.0.0-beta01")
@@ -98,6 +100,25 @@ dependencies {
     // Constraint Layout
     implementation("androidx.constraintlayout:constraintlayout:2.2.0-alpha13")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha13")
+
+    val navVersion = "2.7.6"
+
+    implementation("androidx.navigation:navigation-compose:$navVersion")
+
+    implementation("androidx.compose.material:material:1.6.2")
+
+
+    val ktor = "2.3.8"
+    implementation("io.ktor:ktor-client-core:$ktor")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor")
+    implementation("io.ktor:ktor-client-android:$ktor")
+    implementation("io.ktor:ktor-client-logging:$ktor")
+
+    val koin = "3.5.3"
+    implementation("io.insert-koin:koin-core:$koin")
+    implementation("io.insert-koin:koin-android:$koin")
+    implementation("io.insert-koin:koin-androidx-compose:$koin")
 }
 kapt {
     correctErrorTypes = true

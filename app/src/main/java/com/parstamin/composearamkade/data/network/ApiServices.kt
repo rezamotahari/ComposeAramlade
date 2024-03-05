@@ -1,4 +1,5 @@
 package com.parstamin.composearamkade.data.network
+/*
 
 
 import com.parstamin.composearamkade.data.model.ResponseMediationItem
@@ -15,3 +16,4 @@ interface ApiServices {
     @GET("meditation/meditation_item.php")
     suspend fun getmeditationitem(@Query("cat_id") catid: Int): Response<List<ResponseMediationItem>>
 }
+*/
