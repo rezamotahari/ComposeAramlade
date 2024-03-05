@@ -14,6 +14,7 @@ import com.parstamin.composearamkade.ui.viewmodel.PersonListViewModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -22,7 +23,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val androidModule = module {
-    //viewmodel
+    //viewModel
     viewModel { MeditationViewModel(get()) }
     viewModel { PersonListViewModel(get()) }
 
@@ -34,24 +35,6 @@ val androidModule = module {
 //ktor
     singleOf(::KtorApiServiceImpl) { bind<KtorApiService>() }
     singleOf(::MeditationRepository)
-
-
-}
-
-fun provideSqlDriver(app: Application): SqlDriver {
-    return AndroidSqliteDriver(
-        schema = Database.Schema,
-        context = app,
-        name = "User.db"
-    )
-}
-
-fun providePersonDataSource(driver: SqlDriver): PersonDataSource {
-    return PersonDataSourceImpl(Database(driver))
-}
-
-
-val httpClientModule = module {
     single {
         HttpClient {
             install(ContentNegotiation) {
@@ -69,3 +52,17 @@ val httpClientModule = module {
         }
     }
 }
+
+fun provideSqlDriver(app: Application): SqlDriver {
+    return AndroidSqliteDriver(
+        schema = Database.Schema,
+        context = app,
+        name = "User.db"
+    )
+}
+
+fun providePersonDataSource(driver: SqlDriver): PersonDataSource {
+    return PersonDataSourceImpl(Database(driver))
+}
+
+
