@@ -27,7 +27,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.parstamin.composearamkade.data.model.ResponseMeditationCatItem
-import com.parstamin.composearamkade.ui.theme.bacc
+import com.parstamin.composearamkade.ui.theme.itemBac
 import com.parstamin.composearamkade.ui.viewmodel.MeditationViewModel
 import com.parstamin.composearamkade.utils.MyResponse
 import org.koin.androidx.compose.koinViewModel
@@ -80,7 +80,7 @@ fun MeditationCat(
                             .fillMaxSize(),
                         shape = RoundedCornerShape(50.dp),
                         colors = CardDefaults.cardColors(
-                            containerColor =  bacc
+                            containerColor =  itemBac
                         ),
                         onClick = {
                             catId = it.id
