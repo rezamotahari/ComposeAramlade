@@ -1,4 +1,4 @@
-package com.parstamin.composearamkade.ui.screen.muisc
+package com.parstamin.composearamkade.ui.screen.addUser
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,7 +27,7 @@ import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
-fun Music(
+fun AddUser(
     viewModel: PersonListViewModel = koinViewModel()
 ) {
     val persons = viewModel.persons

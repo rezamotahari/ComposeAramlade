@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.parstamin.composearamkade.ui.screen.detail.DetailsScreen
 import com.parstamin.composearamkade.ui.screen.home.HomeScreen
-import com.parstamin.composearamkade.ui.screen.muisc.Music
+import com.parstamin.composearamkade.ui.screen.addUser.AddUser
 
 @Composable
 fun Nav(navController: NavHostController) {
@@ -35,8 +35,8 @@ fun Nav(navController: NavHostController) {
                 image2 = it.arguments?.getString("image2").toString()
             )
         }
-        composable(route = "Music") {
-            Music()
+        composable(route = "AddUser") {
+            AddUser()
         }
     }
 }

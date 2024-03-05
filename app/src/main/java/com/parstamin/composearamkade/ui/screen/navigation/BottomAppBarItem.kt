@@ -9,7 +9,7 @@ sealed class BottomAppBarItem(val icon: Int, val route: String) {
         route = "HomeScreen"
     )
     data object Music: BottomAppBarItem(
-        icon = R.drawable.music,
-        route = "Music"
+        icon = R.drawable.add,
+        route = "AddUser"
     )
 }
