@@ -22,14 +22,16 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val androidModule = module {
+    //viewmodel
     viewModel { MeditationViewModel(get()) }
     viewModel { PersonListViewModel(get()) }
 
 
-
+//sql
     single { provideSqlDriver(androidApplication()) }
     single { providePersonDataSource(get()) }
 
+//ktor
     singleOf(::KtorApiServiceImpl) { bind<KtorApiService>() }
     singleOf(::MeditationRepository)
 

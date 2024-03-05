@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.parstamin.composearamkade.ui.theme.bac
+import com.parstamin.composearamkade.ui.theme.cardBac
 
 
 @Composable
@@ -30,7 +30,7 @@ fun BottomAppBar(
 
     NavigationBar(
         modifier = Modifier.height(50.dp),
-        containerColor = bac
+        containerColor = cardBac
     ) {
         bottomAppBarItems.forEach { item ->
             NavigationBarItem(

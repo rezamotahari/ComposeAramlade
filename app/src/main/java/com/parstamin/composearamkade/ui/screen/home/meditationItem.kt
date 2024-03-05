@@ -34,46 +34,41 @@ import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.parstamin.composearamkade.data.model.ResponseMediationItem
-import com.parstamin.composearamkade.ui.theme.bac
+
 import com.parstamin.composearamkade.ui.theme.bacc
+import com.parstamin.composearamkade.ui.theme.cardBac
 import com.parstamin.composearamkade.ui.viewmodel.MeditationViewModel
 import com.parstamin.composearamkade.utils.MyResponse
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun meditationItem(
     meditationViewModel: MeditationViewModel = koinViewModel(),
     navController: NavController
 ) {
-
     var item by remember { mutableStateOf(emptyList<ResponseMediationItem>()) }
-
 
     LaunchedEffect(key1 = true) {
         meditationViewModel.getMeditationCat()
         meditationViewModel.getMeditation.collect { response ->
             when (response.status) {
-                MyResponse.Status.LOADING -> {
-                }
-
                 MyResponse.Status.SUCCESS -> {
-                    item = response.data!!
-
+                    item = response.data ?: emptyList()
                 }
-
-                MyResponse.Status.ERROR -> {
-
+                else -> {
                 }
-
             }
-
         }
     }
-    LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(10.dp),
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        horizontalArrangement = Arrangement.spacedBy(10.dp), content = {
-            items(item) {
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        content = {
+            items(item) { meditation ->
                 Box(
                     modifier = Modifier
                         .width(50.dp)
@@ -81,22 +76,18 @@ fun meditationItem(
                         .clip(RoundedCornerShape(10.dp))
                         .background(bacc)
                         .clickable {
-
-                            navController.navigate("DetailsScreen?image=${it.image}&image2=${it.image2}")
-
+                            navController.navigate("DetailsScreen?image=${meditation.image}&image2=${meditation.image2}")
                         }
-                )
-                {
+                ) {
                     Column {
                         GlideImage(
-                            model = it.image,
+                            model = meditation.image,
                             contentDescription = "",
                             modifier = Modifier
                                 .padding(10.dp)
                                 .fillMaxWidth()
                                 .height(80.dp),
                             contentScale = ContentScale.Crop
-
                         )
                         Card(
                             modifier = Modifier
@@ -104,29 +95,22 @@ fun meditationItem(
                                 .fillMaxWidth()
                                 .height(60.dp)
                                 .clip(RoundedCornerShape(10.dp)),
-                            colors = CardDefaults.cardColors(
-                                containerColor = bac
-                            )
-
-
+                            colors = CardDefaults.cardColors(containerColor = cardBac)
                         ) {
                             Spacer(modifier = Modifier.height(10.dp))
                             Text(
-                                text = it.titile.toString(),
+                                text = meditation.titile.toString(),
                                 Modifier.align(Alignment.CenterHorizontally)
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                             Text(
-                                text = it.sessions.toString() + " جلسه",
+                                text = "${meditation.sessions} جلسه",
                                 Modifier.align(Alignment.CenterHorizontally)
                             )
                         }
-
                     }
                 }
-
             }
-
-
-        })
+        }
+    )
 }
