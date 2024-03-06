@@ -2,7 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 
-    kotlin("kapt")
+    id("com.google.devtools.ksp")
     id("kotlinx-serialization")
 
     id("app.cash.sqldelight")
@@ -112,13 +112,11 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-compose:$koin")
 
 //sqldelight
-    implementation("app.cash.sqldelight:android-driver:2.0.0")
-    implementation("app.cash.sqldelight:coroutines-extensions-jvm:2.0.0")
+    implementation("app.cash.sqldelight:android-driver:2.0.1")
+    implementation("app.cash.sqldelight:coroutines-extensions-jvm:2.0.1")
 
 }
-kapt {
-    correctErrorTypes = true
-}
+
 
 sqldelight {
     databases {

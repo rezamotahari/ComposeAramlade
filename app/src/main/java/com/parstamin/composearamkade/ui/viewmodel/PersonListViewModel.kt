@@ -34,8 +34,6 @@ class PersonListViewModel (
         }
     }
 
-
-
     fun onDeleteClick(id: Long) {
         viewModelScope.launch {
             personDataSource.deletePersonById(id)

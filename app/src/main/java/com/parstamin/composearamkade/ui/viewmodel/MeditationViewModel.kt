@@ -2,16 +2,14 @@ package com.parstamin.composearamkade.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.parstamin.composearamkade.data.model.ResponseMediationItem
-import com.parstamin.composearamkade.data.model.ResponseMeditationCatItem
 import com.parstamin.composearamkade.data.repository.MeditationRepository
-import com.parstamin.composearamkade.utils.MyResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-
 
 
 class MeditationViewModel(
@@ -19,28 +17,27 @@ class MeditationViewModel(
 ) : ViewModel() {
 
     private val _getMeditationCatData =
-        MutableStateFlow<MyResponse<List<ResponseMeditationCatItem>>>(MyResponse.loading())
-    val getMeditationCat: StateFlow<MyResponse<List<ResponseMeditationCatItem>>> =
-        _getMeditationCatData
-
+        MutableStateFlow(MeditationState())
+    val getMeditationCat: StateFlow<MeditationState> = _getMeditationCatData.asStateFlow()
 
     private val _getMeditationData =
-        MutableStateFlow<MyResponse<List<ResponseMediationItem>>>(MyResponse.loading())
-    val getMeditation: StateFlow<MyResponse<List<ResponseMediationItem>>> =
-        _getMeditationData
+        MutableStateFlow(MeditationState())
+    val getMeditation: StateFlow<MeditationState> = _getMeditationData.asStateFlow()
 
+
+    init {
+        getMeditationCat()
+    }
 
     fun getMeditationCat() {
         viewModelScope.launch {
             meditationRepository.getMeditationCat()
-                .onStart { _getMeditationCatData.value = MyResponse.loading() }
+                .onStart { _getMeditationCatData.update { it.copy(isLoading = true) } }
                 .catch { e ->
-                    _getMeditationCatData.value = MyResponse.error(e.message ?: "Unknown error")
+                    _getMeditationCatData.update { it.copy(message = e.message) }
                 }
-                .collect {
-
-                    _getMeditationCatData.value = MyResponse.success(it)
-
+                .collect { data ->
+                    _getMeditationCatData.update { it.copy(allCat = data) }
                 }
         }
     }
@@ -49,13 +46,13 @@ class MeditationViewModel(
     fun getMeditationItem(catId: Int) {
         viewModelScope.launch {
             meditationRepository.getMeditationItem(catId)
-                .onStart { _getMeditationData.value = MyResponse.loading() }
+                .onStart { _getMeditationData.update { it.copy(isLoading = true) } }
                 .catch { e ->
-                    _getMeditationData.value = MyResponse.error(e.message ?: "Unknown error")
+                    _getMeditationData.update { it.copy(message = e.message) }
                 }
-                .collect {
+                .collect { data ->
 
-                    _getMeditationData.value = MyResponse.success(it)
+                    _getMeditationData.update { it.copy(allMeditation = data) }
 
                 }
         }
